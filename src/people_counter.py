@@ -781,11 +781,6 @@ def plot_model_progression_fps(results):
     plt.savefig(OUTPUT_DIR / "model_progression_fps.png")
     plt.show()
 
-
-# ============================================================
-# Main
-# ============================================================
-
 def main():
     print("Starte YOLO-Modellvergleich")
     print("Video:", VIDEO_PATH)

@@ -129,8 +129,10 @@ Die Modelle werden hinsichtlich
 
 miteinander verglichen. Die Auswertung erfolgt anhand der erzeugten CSV-Datei sowie verschiedener Diagramme.
 
+![Accuracy vs Speed](assets/images/accuracy_vs_speed_family_lines.png)
+
 ## Probleme: 
-- Personen werden teilweise nicht oder schlecht erkannt und getracked.
+- Personen werden teilweise nicht oder schlecht erkannt und getracked
 YOLO-Modelle werden mit großen Datensätzen für allgemeine Objekterkennung trainiert (Menschen, Tiere, Fahrzeuge...)
 -> Modell mit spezialisierten Datensatz trainieren
 - Videoqualität (geringe Auflösung, Wasserzeichen, schlechte Lichtverhältnisse beeinflussen die Erkennung) 

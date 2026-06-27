@@ -21,8 +21,8 @@ YOLO (You Only Look Once) gehört zu den bekanntesten Echtzeitverfahren der Obje
 ### YOLO11 (veröffentlicht: 2024):
 - YOLO11n
 - YOLO11s
-- YOLOv11m
-- YOLOv11x
+- YOLO11m
+- YOLO11x
 ### YOLO26 (veröffentlicht: 2026):
 - YOLO26n
 - YOLO26s
@@ -91,23 +91,28 @@ Verwendet wurde das Video:
 input_videos/video4.mp4
 ```
 ## Projektstruktur
-```text
+```
 people-detection/
+│
+├── assets/
+│   └── images/
 │
 ├── input_videos/
 │   └── video4.mp4
 │
 ├── output/
-│   └── model_comparison_refined/
+│   └── model_comparison/
 │
 ├── src/
-│   ├── models/
 │   ├── people_counter.py
 │   └── plot_results.py
 │
 ├── requirements.txt
 └── README.md
 ```
+## YOLO Models
+Die YOLO-Modelle sind noch nicht in diesem Repository enthalten, auf Grund der Größe. Beim ersten Mal ausführen des Codes werden die benötigten Modelle automatisch heruntergeladen.
+
 ## Installation
 ```text
 pip install -r requirements.txt
@@ -128,8 +133,16 @@ Die Modelle werden hinsichtlich
 - Verarbeitungsgeschwindigkeit 
 
 miteinander verglichen. Die Auswertung erfolgt anhand der erzeugten CSV-Datei sowie verschiedener Diagramme.
-
+## Auswertung der Modelle:
 ![Accuracy vs Speed](assets/images/accuracy_vs_speed_family_lines.png)
+
+## YOLO_Modelle Auswertung von Ultralytics:
+![YOLO-Modelle](assets/images/Ultralytics-YOLO26-Benchmark.jpg)
+
+## Vergleich
+Sowohl die eigenen Messergebnisse als auch die Benchmark-Daten von Ultralytics zeigen den gleichen grundlegenden Zusammenhang: Größere Modelle liefern eine höhere Genauigkeit, benötigen jedoch mehr Rechenleistung und erreichen daher geringere FPS.
+
+Darüber hinaus zeigen die veröffentlichten Benchmarks, dass die YOLO26-Modelle im Vergleich zu früheren Modellgenerationen eine bessere Genauigkeit bei ähnlicher Verarbeitungsgeschwindigkeit erzielen.
 
 ## Probleme: 
 - Personen werden teilweise nicht oder schlecht erkannt und getracked
@@ -139,4 +152,7 @@ YOLO-Modelle werden mit großen Datensätzen für allgemeine Objekterkennung tra
 - Verdeckungen oder dicht beeinander laufende Personen kann es zu Fehler beim Tracking oder Zählungen kommen
 - Preprocessing kann die Erkennung verbssern, aber auch bestimmte Artefakte verschlimmern
 
+## Authors
+- Tan Loc Huschka (@taniiboy)
+- Alexander Korolev (@AlexKoro186)
 

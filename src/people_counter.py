@@ -6,22 +6,21 @@ import time
 import csv
 import re
 
-#Configurations
+# Configuration
 BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_DIR = BASE_DIR / "src" / "models"
 models = [
-    MODEL_DIR / "yolov8n.pt",
-    MODEL_DIR / "yolov8s.pt",
-    MODEL_DIR / "yolov8m.pt",
-    MODEL_DIR / "yolov8x.pt",
-    MODEL_DIR / "yolo11n.pt",
-    MODEL_DIR / "yolo11s.pt",
-    MODEL_DIR / "yolo11m.pt",
-    MODEL_DIR / "yolo11x.pt",
-    MODEL_DIR / "yolo26n.pt",
-    MODEL_DIR / "yolo26s.pt",
-    MODEL_DIR / "yolo26m.pt",
-    MODEL_DIR / "yolo26x.pt",
+    "yolov8n.pt",
+    "yolov8s.pt",
+    "yolov8m.pt",
+    "yolov8x.pt",
+    "yolo11n.pt",
+    "yolo11s.pt",
+    "yolo11m.pt",
+    "yolo11x.pt",
+    "yolo26n.pt",
+    "yolo26s.pt",
+    "yolo26m.pt",
+    "yolo26x.pt",
 ]
 VIDEO_PATH = BASE_DIR / "input_videos" / "video4.mp4"
 OUTPUT_DIR = BASE_DIR / "output" / "model_comparison"
@@ -58,7 +57,8 @@ SAVE_PROCESSED_VIDEO = True
 GROUND_TRUTH_ENTRY = 33
 GROUND_TRUTH_EXIT = 15
 
-#Functions
+
+# Functions
 def preprocess_frame(frame, mode="none"):
     """
     Bearbeitet einen Frame vor der YOLO-Erkennung.
@@ -136,6 +136,7 @@ def parse_model_info(model_name):
         size = "unknown"
     return family, size
 
+
 def draw_info(annotated_frame, entry_count, exit_count, line_y):
     """
     Zeichnet Zähllinie und Text auf das Bild.
@@ -171,6 +172,7 @@ def draw_info(annotated_frame, entry_count, exit_count, line_y):
         2,
     )
 
+
 def draw_track_history(annotated_frame, track_history, active_ids):
     """
     Zeichnet kurze Bewegungsspuren der aktuell sichtbaren Personen.
@@ -189,8 +191,10 @@ def draw_track_history(annotated_frame, track_history, active_ids):
             x2, y2 = point_list[i]
             cv2.line(annotated_frame, (x1, y1), (x2, y2), (255, 0, 255), 2)
 
+
 def calculate_error(predicted, ground_truth):
     return abs(predicted - ground_truth)
+
 
 def process_video_with_model(model_name):
     print("\n" + "=" * 60)
@@ -202,7 +206,7 @@ def process_video_with_model(model_name):
 
     family, size = parse_model_info(model_name)
     try:
-        model = YOLO(str(model_name))
+        model = YOLO(model_name)
     except Exception as e:
         print(f"Modell konnte nicht geladen werden: {model_name}")
         print(f"Fehler: {e}")
@@ -262,12 +266,20 @@ def process_video_with_model(model_name):
     conf_label = str(CONFIDENCE).replace(".", "")
 
     if SAVE_YOLO_VIDEO:
-        yolo_video_path = OUTPUT_DIR / (f"{model_stem}_{PREPROCESSING_MODE}_conf{conf_label}_yolo.mp4")
-        yolo_writer = cv2.VideoWriter(str(yolo_video_path), fourcc, video_fps, (frame_width, frame_height))
+        yolo_video_path = OUTPUT_DIR / (
+            f"{model_stem}_{PREPROCESSING_MODE}_conf{conf_label}_yolo.mp4"
+        )
+        yolo_writer = cv2.VideoWriter(
+            str(yolo_video_path), fourcc, video_fps, (frame_width, frame_height)
+        )
 
     if SAVE_PROCESSED_VIDEO:
-        processed_video_path = OUTPUT_DIR / (f"{model_stem}_{PREPROCESSING_MODE}_conf{conf_label}_processed.mp4")
-        processed_writer = cv2.VideoWriter(str(processed_video_path), fourcc, video_fps, (frame_width, frame_height))
+        processed_video_path = OUTPUT_DIR / (
+            f"{model_stem}_{PREPROCESSING_MODE}_conf{conf_label}_processed.mp4"
+        )
+        processed_writer = cv2.VideoWriter(
+            str(processed_video_path), fourcc, video_fps, (frame_width, frame_height)
+        )
 
     if SHOW_PREVIEW:
         cv2.namedWindow(f"YOLO People Counter - {model_name}", cv2.WINDOW_NORMAL)
@@ -318,12 +330,20 @@ def process_video_with_model(model_name):
 
                     if track_id not in counted_ids:
                         # Von oben nach unten
-                        if (previous_y < LINE_Y and center_y >= LINE_Y and movement >= MIN_MOVEMENT):
+                        if (
+                            previous_y < LINE_Y
+                            and center_y >= LINE_Y
+                            and movement >= MIN_MOVEMENT
+                        ):
                             exit_count += 1
                             counted_ids.add(track_id)
 
                         # Von unten nach oben
-                        elif (previous_y > LINE_Y and center_y <= LINE_Y and movement <= -MIN_MOVEMENT):
+                        elif (
+                            previous_y > LINE_Y
+                            and center_y <= LINE_Y
+                            and movement <= -MIN_MOVEMENT
+                        ):
                             entry_count += 1
                             counted_ids.add(track_id)
 
@@ -411,6 +431,7 @@ def process_video_with_model(model_name):
         "processed_video": str(processed_video_path) if processed_video_path else None,
     }
 
+
 def save_results_to_csv(results):
     fieldnames = [
         "model",
@@ -440,6 +461,7 @@ def save_results_to_csv(results):
 
     print("\nCSV gespeichert unter:")
     print(CSV_PATH)
+
 
 def main():
     print("Starte YOLO-Modellvergleich")
@@ -472,6 +494,7 @@ def main():
             f"Exit={result['exit_count']}, "
             f"Gesamtfehler={result['total_error']}"
         )
+
 
 if __name__ == "__main__":
     main()
